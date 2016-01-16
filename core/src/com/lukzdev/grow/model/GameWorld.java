@@ -45,27 +45,12 @@ public class GameWorld implements ContactListener {
         entityManager.addEntity(planet);
 
         // Static trunk holds whole tree
-        Trunk trunk = new Trunk(planet.getPosition().x, planet.getPosition().y + planet.getBounds().height / 2, 50, 150, box2DWorld);
-        entityManager.addEntity(trunk);
+//        Trunk trunk = new Trunk(planet.getPosition().x, planet.getPosition().y + planet.getBounds().height / 2, 50, 150, box2DWorld);
+//        entityManager.addEntity(trunk);
 
-        Branch branch = new Branch(trunk.getPosition().x, trunk.getPosition().y + 100, trunk.getBounds().width, trunk.getBounds().height * 2, box2DWorld);
-        entityManager.addEntity(branch);
+        TreeBuilder treeBuilder = new TreeBuilder(planet, entityManager, box2DWorld);
+        treeBuilder.buildTree();
 
-        // Put branch inside trunk
-        WeldJointDef weldJoint = new WeldJointDef();
-        weldJoint.initialize(trunk.getBody(), branch.getBody(),
-                new Vector2(trunk.getPosition().x * Box2DWorld.WORLD_TO_BOX,
-                        (trunk.getPosition().y + (trunk.getBounds().height / 2) * 0.8f) * Box2DWorld.WORLD_TO_BOX));
-
-        weldJoint.localAnchorA.set(0, (trunk.getBounds().height / 2 * 0.8f) * Box2DWorld.WORLD_TO_BOX);
-        weldJoint.localAnchorB.set(0,
-                -branch.getBounds().height / 2 * 0.8f * Box2DWorld.WORLD_TO_BOX);
-
-        weldJoint.frequencyHz = 5;
-
-        box2DWorld.getWorld().createJoint(weldJoint);
-
-        branch.getBody().applyAngularImpulse(100, true);
     }
 
     public void update(float delta) {
