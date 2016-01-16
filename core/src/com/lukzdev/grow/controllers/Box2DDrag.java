@@ -55,6 +55,9 @@ public class Box2DDrag extends InputAdapter {
                 testPoint.x * Box2DWorld.WORLD_TO_BOX + 0.0001f,
                 testPoint.y * Box2DWorld.WORLD_TO_BOX + 0.0001f);
 
+        // ignore ground
+        if(hitBody == groundBody) return false;
+
         // ignore kinematic bodies, they don't work with the mouse joint
         if (hitBody != null && hitBody.getType() == BodyDef.BodyType.KinematicBody) return false;
 
