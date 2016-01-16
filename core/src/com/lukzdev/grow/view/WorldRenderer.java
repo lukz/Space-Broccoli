@@ -51,7 +51,6 @@ public class WorldRenderer {
 
         batch.begin();
 
-
         // Render world
         gameWorld.draw(batch);
 
@@ -69,6 +68,9 @@ public class WorldRenderer {
         viewport.update(width, height, true);
     }
 
+    public OrthographicCamera getCam() {
+        return cam;
+    }
 
     public void dispose() {
         batch.dispose();

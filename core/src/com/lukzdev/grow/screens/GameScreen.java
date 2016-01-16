@@ -3,6 +3,7 @@ package com.lukzdev.grow.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.lukzdev.grow.G;
+import com.lukzdev.grow.controllers.Box2DDrag;
 import com.lukzdev.grow.model.GameWorld;
 import com.lukzdev.grow.view.WorldRenderer;
 
@@ -29,6 +30,9 @@ public class GameScreen implements Screen {
     public GameScreen() {
         this.gameWorld = new GameWorld();
         this.renderer = new WorldRenderer(gameWorld);
+
+        Gdx.input.setInputProcessor(new Box2DDrag(renderer.getCam(),
+                gameWorld.getBox2DWorld().getWorld(), gameWorld.getPlanet().getBody()));
     }
 
     @Override
@@ -62,14 +66,6 @@ public class GameScreen implements Screen {
 		 * Render
 		 */
         renderer.render(delta);
-
-        // Remove rest of the entities
-//        G.engine.getSystem(RemoveSystem.class).update(delta);
-
-        if(G.DEBUG) {
-
-        }
-
 }
 
     @Override
