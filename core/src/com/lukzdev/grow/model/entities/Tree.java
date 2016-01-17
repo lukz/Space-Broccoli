@@ -2,6 +2,8 @@ package com.lukzdev.grow.model.entities;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
+import com.lukzdev.grow.model.EntityManager;
+import com.lukzdev.grow.model.PhysicsObject;
 
 /**
  * @author Lukasz Zmudziak, @lukz_dev on 2016-01-17.
@@ -13,7 +15,11 @@ public class Tree {
     // Simply first branch
     private Branch trunk;
 
-    public Tree() {
+    private EntityManager entityManager;
+
+    public Tree(EntityManager entityManager) {
+        this.entityManager = entityManager;
+
         branches = new Array<Branch>();
     }
 
@@ -26,17 +32,27 @@ public class Tree {
     }
 
     /**
-     * Pushes all tree branches with specified force to smack crash opponents into planet.
+     * Pushes all tree branches with specified force to crash opponents into planet.
      * @param force
      */
     public void smackPlanet(float force) {
         for(int i = 0; i < branches.size; i++) {
             Body body = branches.get(i).getBody();
             body.applyLinearImpulse(force, 0, body.getPosition().x, body.getPosition().y, true);
-//                treeGenerator.trunk.getBody().applyLinearImpulse(-100, 0,
-//                        treeGenerator.trunk.getBody().getPosition().x, treeGenerator.trunk.getBody().getPosition().y, true);
         }
     }
 
+    /**
+     * Removes last branch from tree
+     */
+    public void getHit() {
+        Entity branch = branches.pop();
 
+        entityManager.removeEntity(branch);
+        ((PhysicsObject)branch).setFlagForDelete(true);
+    }
+
+    public Branch getTrunk() {
+        return trunk;
+}
 }

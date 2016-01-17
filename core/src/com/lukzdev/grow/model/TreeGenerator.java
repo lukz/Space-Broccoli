@@ -6,8 +6,8 @@ import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.utils.Array;
 import com.lukzdev.grow.model.entities.Branch;
 import com.lukzdev.grow.model.entities.Entity;
-import com.lukzdev.grow.model.entities.Planet;
 import com.lukzdev.grow.model.entities.Tree;
+import com.lukzdev.grow.model.entities.Trunk;
 
 /**
  * @author Lukasz Zmudziak, @lukz_dev on 2016-01-16.
@@ -18,13 +18,13 @@ public class TreeGenerator {
     private static final float PLANET_JOINT_ANCHOR_ALPHA = 0.97f;
 
     public static Tree buildTree(GameWorld gameWorld) {
-        Tree tree = new Tree();
+        Tree tree = new Tree(gameWorld.getEntityManager());
 
         float freqDelta = -3;
         float freq = 20;
 
         // First branch
-        Entity previousBranch = createFirstBranch(gameWorld, 25, 100, freq);
+        Entity previousBranch = createTrunk(gameWorld, tree, 25, 100, freq);
 
         // Array used to hold branch layers
         Array<Entity> lastLayer = new Array<Entity>();
@@ -85,11 +85,11 @@ public class TreeGenerator {
         return tree;
     }
 
-    private static Branch createFirstBranch(GameWorld world, float width, float height, float frequency) {
+    private static Branch createTrunk(GameWorld world, Tree tree, float width, float height, float frequency) {
         // Create new branch
-        Branch branch = new Branch(world.getPlanet().getPosition().x,
+        Branch branch = new Trunk(world.getPlanet().getPosition().x,
                 world.getPlanet().getPosition().y + world.getPlanet().getBounds().height / 2 + height / 2, width,
-                height, world.getBox2DWorld());
+                height, world.getBox2DWorld(), tree);
         world.getEntityManager().addEntity(branch);
 
         // Connect to previous branch by weld joint

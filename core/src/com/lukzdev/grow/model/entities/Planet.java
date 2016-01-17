@@ -51,10 +51,13 @@ public class Planet extends Entity implements PhysicsObject {
 
     // Temp
     private Vector2 gravityVec2 = new Vector2();
-//    private Vector2  = new Vector2();
 
     @Override
     public void update(float delta) {
+        // Pull position from physics world
+        position.set(body.getPosition().scl(Box2DWorld.BOX_TO_WORLD));
+
+        // Apply planet gravity on bodies
         for(int i = 0; i < entityManager.getEntities().size; i++) {
             Entity entity = entityManager.getEntities().get(i);
 
@@ -66,7 +69,7 @@ public class Planet extends Entity implements PhysicsObject {
             // Calculate gravity vector for that body
             gravityVec2.set(entBody.getPosition().sub(body.getPosition()));
 
-            // Lets apply gravity!
+            // Lets apply gravity! I know it's not right but who cares?! It looks good enough!
             entBody.applyForce(gravityVec2.scl(-entBody.getMass()), entBody.getWorldCenter(), true);
         }
 

@@ -7,7 +7,6 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.lukzdev.grow.G;
-import com.lukzdev.grow.model.entities.Enemy;
 import com.lukzdev.grow.model.entities.Planet;
 import com.lukzdev.grow.model.entities.Tree;
 import com.lukzdev.grow.utils.Constants;
@@ -18,6 +17,7 @@ public class GameWorld implements ContactListener {
     private EntityManager entityManager;
 
     private TreeGenerator treeGenerator;
+    private EnemyGenerator enemyGenerator;
 
     private Planet planet;
     private Tree tree;
@@ -30,6 +30,7 @@ public class GameWorld implements ContactListener {
         box2DWorld = new Box2DWorld(new Vector2(0, Constants.GRAVITY));
 
         entityManager = new EntityManager();
+        enemyGenerator = new EnemyGenerator(this);
 
         // Pass all collisions through this class
         box2DWorld.getWorld().setContactListener(this);
@@ -46,13 +47,15 @@ public class GameWorld implements ContactListener {
         treeGenerator = new TreeGenerator();
         tree = treeGenerator.buildTree(this);
 
-        // Testing
-        entityManager.addEntity(new Enemy(200, 400, 50, 50, box2DWorld));
-
     }
 
     public void update(float delta) {
         box2DWorld.update(delta);
+
+        // Spawn some enemies
+        enemyGenerator.update(delta);
+
+        // Update entities logic
         entityManager.update(delta);
     }
 

@@ -3,8 +3,6 @@ package com.lukzdev.grow.model.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
-import com.lukzdev.grow.G;
 import com.lukzdev.grow.model.Box2DWorld;
 import com.lukzdev.grow.model.GameWorld;
 import com.lukzdev.grow.model.PhysicsObject;
@@ -35,16 +33,16 @@ public class Branch extends Entity implements PhysicsObject {
                 .type(BodyDef.BodyType.DynamicBody)
                 .userData(this)
                 .build();
-
     }
 
     @Override
     public void draw(SpriteBatch batch) {
-
     }
 
     @Override
     public void update(float delta) {
+        // Pull position from physics world
+        position.set(body.getPosition().scl(Box2DWorld.BOX_TO_WORLD));
 
     }
 

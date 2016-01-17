@@ -1,7 +1,5 @@
 package com.lukzdev.grow.view;
 
-import box2dLight.DirectionalLight;
-import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

@@ -1,15 +1,10 @@
 package com.lukzdev.grow.controllers;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
-import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.lukzdev.grow.G;
-import com.lukzdev.grow.model.Box2DWorld;
 import com.lukzdev.grow.model.GameWorld;
 import com.lukzdev.grow.view.WorldRenderer;
 
@@ -34,10 +29,9 @@ public class TreeController extends InputAdapter {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         tempVec3.set(screenX, screenY, 0);
 
-        // Unproject to wold units
+        // Unproject to world units
         cam.unproject(tempVec3);
-        System.out.println(tempVec3.x);
-        System.out.println(G.TARGET_WIDTH / 2);
+
         // Hit proper side
         if(tempVec3.x <= G.TARGET_WIDTH / 2) {
             gameWorld.getTree().smackPlanet(-1.5f);
@@ -48,4 +42,17 @@ public class TreeController extends InputAdapter {
         return true;
     }
 
+    @Override
+    public boolean keyDown(int keycode) {
+        switch (keycode) {
+            case Input.Keys.LEFT:
+                gameWorld.getTree().smackPlanet(-1.5f);
+                return true;
+            case Input.Keys.RIGHT:
+                gameWorld.getTree().smackPlanet(1.5f);
+                return true;
+        }
+
+        return false;
+    }
 }

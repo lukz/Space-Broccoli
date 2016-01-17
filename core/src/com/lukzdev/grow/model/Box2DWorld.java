@@ -45,7 +45,7 @@ public class Box2DWorld {
 
     public Box2DWorld(Vector2 gravity) {
         world = new World(gravity, true);
-        debugRenderer = new Box2DDebugRenderer();
+        debugRenderer = new Box2DDebugRenderer(true, true, false, true, false, true);
 
         bodyBuilder = new BodyBuilder(world);
         fixtureDefBuilder = new FixtureDefBuilder();
