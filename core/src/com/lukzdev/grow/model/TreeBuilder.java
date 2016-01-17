@@ -40,15 +40,39 @@ public class TreeBuilder {
 
         lastLayer.add(previousBranch);
 
+        /**
+         * Cool settings:
+         * -b: 2, maxDeg: 45, layers: 5
+         * -b: 2, maxDeg: 30, layers: 3
+         * -b: 3, maxDeg: 30, layers: 3
+         */
+        // Config
+        float maxDegDeviation = 30;
+        float deviationDegradationPerLayer = 0;
+        int branches = 3;
+
+        float currMaxDegDeviation = maxDegDeviation;
+
         // For each layer
-        for(int i = 0; i <= 5; i++) {
+        for(int i = 0; i <= 3; i++) {
             freq -= freqDelta;
 
+            // Degrade angle
+            currMaxDegDeviation = Math.max(0, currMaxDegDeviation + deviationDegradationPerLayer);
+
+            int spacesBetweenBranches = branches - 1;
+            float angleBetweenBranches = currMaxDegDeviation * 2 / spacesBetweenBranches;
+
+            // For every branch in layer
             for(int j = 0; j < lastLayer.size; j++) {
                 Entity currBranch = lastLayer.get(j);
 
-                for(int x = 0; x < 2; x++) {
-                    Entity newBranch = createBranch(currBranch, currBranch.getBounds().width * 0.8f, currBranch.getBounds().height * 0.8f, freq, 0);
+                // Create new branches
+                for(int x = 0; x < branches; x++) {
+                    float referenceAngle = -currMaxDegDeviation + angleBetweenBranches * x;
+
+                    Entity newBranch = createBranch(currBranch, currBranch.getBounds().width * 0.8f,
+                            currBranch.getBounds().height * 0.8f, freq, referenceAngle);
                     currLayer.add(newBranch);
                 }
 

@@ -28,6 +28,7 @@ public class Branch extends Entity implements PhysicsObject {
                         .density(1f)
                         .friction(1f)
                         .restitution(0.8f)
+                        .sensor()
                         .build())
                 .position(x * Box2DWorld.WORLD_TO_BOX, y * Box2DWorld.WORLD_TO_BOX)
                 .type(BodyDef.BodyType.DynamicBody)
