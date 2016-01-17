@@ -1,9 +1,10 @@
 package com.lukzdev.grow.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.lukzdev.grow.G;
 import com.lukzdev.grow.controllers.Box2DDrag;
+import com.lukzdev.grow.controllers.TreeController;
 import com.lukzdev.grow.model.GameWorld;
 import com.lukzdev.grow.view.WorldRenderer;
 
@@ -31,8 +32,13 @@ public class GameScreen implements Screen {
         this.gameWorld = new GameWorld();
         this.renderer = new WorldRenderer(gameWorld);
 
-        Gdx.input.setInputProcessor(new Box2DDrag(renderer.getCam(),
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        // Just for debug purposes, can be removed later
+        inputMultiplexer.addProcessor(new Box2DDrag(renderer.getCam(),
                 gameWorld.getBox2DWorld().getWorld(), gameWorld.getPlanet().getBody()));
+        inputMultiplexer.addProcessor(new TreeController(gameWorld, renderer));
+
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     @Override

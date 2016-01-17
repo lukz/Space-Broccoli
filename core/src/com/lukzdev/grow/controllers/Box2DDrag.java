@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
+import com.lukzdev.grow.G;
 import com.lukzdev.grow.model.Box2DWorld;
 
 /**
@@ -43,6 +44,8 @@ public class Box2DDrag extends InputAdapter {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if(!G.DEBUG) return false;
+
         // translate the mouse coordinates to world coordinates
         camera.unproject(testPoint.set(screenX, screenY, 0));
 
@@ -104,16 +107,6 @@ public class Box2DDrag extends InputAdapter {
             mouseJoint.setTarget(target.set(testPoint.x*Box2DWorld.WORLD_TO_BOX, testPoint.y*Box2DWorld.WORLD_TO_BOX));
         }
         return true;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
     }
 
 }

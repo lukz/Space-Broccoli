@@ -20,10 +20,6 @@ public class WorldRenderer {
     private Viewport viewport;
     private SpriteBatch batch;
 
-    // Manager used to follow player
-//    private CameraManager cameraManager;
-
-
     public WorldRenderer(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
 
@@ -31,18 +27,12 @@ public class WorldRenderer {
         cam.setToOrtho(false, G.TARGET_WIDTH,
                 G.TARGET_HEIGHT);
 
-//        viewport = new ExtendViewport(Rocket.VIRTUAL_WIDTH, 0, Rocket.VIRTUAL_WIDTH, Rocket.VIRTUAL_HEIGHT * 10, cam);
         viewport = new ExtendViewport(G.TARGET_WIDTH, G.TARGET_HEIGHT, cam);
 
         batch = new SpriteBatch();
-
-//        cameraManager = new CameraManager(cam, gameWorld.getPlayer());
     }
 
     public void render(float delta) {
-        // Update cam
-//        cameraManager.update(delta);
-
         batch.setProjectionMatrix(cam.combined);
 
         // Clear screen
@@ -60,8 +50,6 @@ public class WorldRenderer {
         if (G.DEBUG) {
             gameWorld.getBox2DWorld().debugRender(cam);
         }
-
-
     }
 
     public void resize(int width, int height) {

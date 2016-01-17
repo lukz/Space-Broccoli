@@ -25,13 +25,13 @@ public class Box2DWorld {
     /*
      * Masks and categories used to filter collisions
      */
-//    public final static short OBSTACLE_MASK = Box2DWorld.CATEGORY.PLAYER | Box2DWorld.CATEGORY.PLAYER_PARTICLES;
-//
-//    public final static class CATEGORY {
-//        public final static short GROUND = 0x0001;
-//        public final static short PLAYER = 0x0002;
-//        public final static short OBSTACLE = 0x0004;
-//    };
+    public final static short BRANCH_MASK = CATEGORY.PLANET;
+
+    public final static class CATEGORY {
+        public final static short PLANET = 0x0001;
+        public final static short BRANCH = 0x0002;
+        public final static short ENEMY = 0x0004;
+    };
 
     private World world;
 
@@ -52,7 +52,7 @@ public class Box2DWorld {
     }
 
     public void update(float dt) {
-        world.step(dt, 6, 2);
+        world.step(dt, 15, 5);
         sweepDeadBodies();
     }
 

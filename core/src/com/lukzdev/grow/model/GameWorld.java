@@ -2,19 +2,13 @@ package com.lukzdev.grow.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
-import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.utils.Array;
 import com.lukzdev.grow.G;
-import com.lukzdev.grow.controllers.Box2DDrag;
-import com.lukzdev.grow.model.entities.Branch;
 import com.lukzdev.grow.model.entities.Planet;
-import com.lukzdev.grow.model.entities.Trunk;
+import com.lukzdev.grow.model.entities.Tree;
 import com.lukzdev.grow.utils.Constants;
 
 public class GameWorld implements ContactListener {
@@ -22,7 +16,10 @@ public class GameWorld implements ContactListener {
     private Box2DWorld box2DWorld;
     private EntityManager entityManager;
 
+    private TreeGenerator treeGenerator;
+
     private Planet planet;
+    private Tree tree;
 
     // Keep game state
     public static enum GameState { WAITING_TO_START, IN_GAME, FINISH };
@@ -44,12 +41,9 @@ public class GameWorld implements ContactListener {
         planet = new Planet(G.TARGET_WIDTH / 2, - G.TARGET_HEIGHT / 2, box2DWorld);
         entityManager.addEntity(planet);
 
-        // Static trunk holds whole tree
-//        Trunk trunk = new Trunk(planet.getPosition().x, planet.getPosition().y + planet.getBounds().height / 2, 50, 150, box2DWorld);
-//        entityManager.addEntity(trunk);
-
-        TreeBuilder treeBuilder = new TreeBuilder(planet, entityManager, box2DWorld);
-        treeBuilder.buildTree();
+        // Tree
+        treeGenerator = new TreeGenerator();
+        tree = treeGenerator.buildTree(this);
 
     }
 
@@ -108,6 +102,10 @@ public class GameWorld implements ContactListener {
 
     public Planet getPlanet() {
         return planet;
+    }
+
+    public Tree getTree() {
+        return tree;
     }
 
     public void setGameState(GameState gameState) {
