@@ -1,12 +1,13 @@
 package com.lukzdev.grow.model;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.lukzdev.grow.G;
+import com.lukzdev.grow.model.entities.Enemy;
 import com.lukzdev.grow.model.entities.Planet;
 import com.lukzdev.grow.model.entities.Tree;
 import com.lukzdev.grow.utils.Constants;
@@ -38,12 +39,15 @@ public class GameWorld implements ContactListener {
 
     public void initializeObjects() {
         // Planet
-        planet = new Planet(G.TARGET_WIDTH / 2, - G.TARGET_HEIGHT / 2, box2DWorld);
+        planet = new Planet(G.TARGET_WIDTH / 2, - G.TARGET_HEIGHT / 2, this);
         entityManager.addEntity(planet);
 
         // Tree
         treeGenerator = new TreeGenerator();
         tree = treeGenerator.buildTree(this);
+
+        // Testing
+        entityManager.addEntity(new Enemy(200, 400, 50, 50, box2DWorld));
 
     }
 

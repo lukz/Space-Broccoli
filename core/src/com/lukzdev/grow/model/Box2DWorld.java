@@ -25,7 +25,7 @@ public class Box2DWorld {
     /*
      * Masks and categories used to filter collisions
      */
-    public final static short BRANCH_MASK = CATEGORY.PLANET;
+    public final static short BRANCH_MASK = CATEGORY.PLANET | CATEGORY.ENEMY;
 
     public final static class CATEGORY {
         public final static short PLANET = 0x0001;

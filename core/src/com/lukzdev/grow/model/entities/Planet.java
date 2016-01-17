@@ -1,15 +1,17 @@
 package com.lukzdev.grow.model.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2D;
 import com.lukzdev.grow.G;
 import com.lukzdev.grow.model.Box2DWorld;
+import com.lukzdev.grow.model.EntityManager;
 import com.lukzdev.grow.model.GameWorld;
 import com.lukzdev.grow.model.PhysicsObject;
 
 /**
+ * Applies gravity on each body
  * @author Lukasz Zmudziak, @lukz_dev on 2016-01-16.
  */
 public class Planet extends Entity implements PhysicsObject {
@@ -21,11 +23,15 @@ public class Planet extends Entity implements PhysicsObject {
     private Body body;
     private boolean flagForDelete = false;
 
-    public Planet(float x, float y, Box2DWorld box2DWorld) {
+    private EntityManager entityManager;
+
+    public Planet(float x, float y, GameWorld gameWorld) {
         super(x, y, RADIUS * 2, RADIUS * 2);
 
-        this.body = box2DWorld.getBodyBuilder()
-                .fixture(box2DWorld.getFixtureDefBuilder()
+        this.entityManager = gameWorld.getEntityManager();
+
+        this.body = gameWorld.getBox2DWorld().getBodyBuilder()
+                .fixture(gameWorld.getBox2DWorld().getFixtureDefBuilder()
                         .circleShape(getBounds().getWidth() / 2 * Box2DWorld.WORLD_TO_BOX)
                         .density(1f)
                         .friction(1f)
@@ -43,8 +49,26 @@ public class Planet extends Entity implements PhysicsObject {
 
     }
 
+    // Temp
+    private Vector2 gravityVec2 = new Vector2();
+//    private Vector2  = new Vector2();
+
     @Override
     public void update(float delta) {
+        for(int i = 0; i < entityManager.getEntities().size; i++) {
+            Entity entity = entityManager.getEntities().get(i);
+
+            // We are need all physics objects with exception of planets
+            if(!(entity instanceof PhysicsObject) || entity instanceof Planet) continue;
+
+            Body entBody = ((PhysicsObject) entity).getBody();
+
+            // Calculate gravity vector for that body
+            gravityVec2.set(entBody.getPosition().sub(body.getPosition()));
+
+            // Lets apply gravity!
+            entBody.applyForce(gravityVec2.scl(-entBody.getMass()), entBody.getWorldCenter(), true);
+        }
 
     }
 

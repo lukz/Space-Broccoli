@@ -5,5 +5,6 @@ package com.lukzdev.grow.utils;
  */
 public class Constants {
 
-    public static final float GRAVITY = -10;
+    // We use circular gravity applied by planet
+    public static final float GRAVITY = 0;
 }
