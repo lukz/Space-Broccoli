@@ -13,8 +13,8 @@ public class Tree {
 
     private Array<Branch> branches;
 
-    // Simply first branch
-    private Branch trunk;
+    // Trunk that take hits
+    private Array<Trunk> trunk;
 
     private EntityManager entityManager;
 
@@ -22,11 +22,12 @@ public class Tree {
         this.entityManager = entityManager;
 
         branches = new Array<Branch>();
+        trunk = new Array<Trunk>();
     }
 
     public void addBranch(Branch branch) {
-        if(branches.size == 0) {
-            trunk = branch;
+        if(branch instanceof Trunk) {
+            trunk.add((Trunk) branch);
         }
 
         branches.add(branch);
@@ -59,12 +60,12 @@ public class Tree {
         ((PhysicsObject)branch).setFlagForDelete(true);
 
         // Push trunk
-        tempVec2.set(trunk.getPosition()).sub(enemy.getPosition()).nor().scl(25);
+        tempVec2.set(trunk.first().getPosition()).sub(enemy.getPosition()).nor().scl(40);
 
-        trunk.getBody().applyLinearImpulse(tempVec2, trunk.getBody().getWorldCenter(), true);
+        trunk.first().getBody().applyLinearImpulse(tempVec2, trunk.first().getBody().getWorldCenter(), true);
     }
 
-    public Branch getTrunk() {
+    public Array<Trunk> getTrunk() {
         return trunk;
 }
 }

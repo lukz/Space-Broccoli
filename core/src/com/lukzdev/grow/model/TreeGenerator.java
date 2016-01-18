@@ -24,7 +24,8 @@ public class TreeGenerator {
         float freq = 20;
 
         // First branch
-        Entity previousBranch = createTrunk(gameWorld, tree, 25, 100, freq);
+        Trunk previousBranch = (Trunk)createBranch(gameWorld, tree, true, null, 25, 100, freq, 0);
+        tree.addBranch(previousBranch);
 
         // Array used to hold branch layers
         Array<Entity> lastLayer = new Array<Entity>();
@@ -64,8 +65,16 @@ public class TreeGenerator {
                     float referenceAngle = -currMaxDegDeviation + angleBetweenBranches * x;
 
                     // New branch
-                    Branch newBranch = createBranch(gameWorld, currBranch, currBranch.getBounds().width * 0.8f,
-                            currBranch.getBounds().height * 0.8f, freq, referenceAngle);
+                    Branch newBranch = null;
+
+                    // First layer is still trunk!
+                    if(j == 0) {
+                        newBranch = createBranch(gameWorld, tree, true, currBranch, currBranch.getBounds().width * 0.8f,
+                                currBranch.getBounds().height * 0.8f, freq, referenceAngle);
+                    } else {
+                        newBranch = createBranch(gameWorld, tree, false, currBranch, currBranch.getBounds().width * 0.8f,
+                                currBranch.getBounds().height * 0.8f, freq, referenceAngle);
+                    }
 
                     // Add to current layer to use in next iteration
                     currLayer.add(newBranch);
@@ -85,51 +94,60 @@ public class TreeGenerator {
         return tree;
     }
 
-    private static Branch createTrunk(GameWorld world, Tree tree, float width, float height, float frequency) {
-        // Create new branch
-        Branch branch = new Trunk(world.getPlanet().getPosition().x,
-                world.getPlanet().getPosition().y + world.getPlanet().getBounds().height / 2 + height / 2, width,
-                height, world.getBox2DWorld(), tree);
-        world.getEntityManager().addEntity(branch);
-
-        // Connect to previous branch by weld joint
-        WeldJointDef weldJoint = new WeldJointDef();
-        weldJoint.initialize(((PhysicsObject) world.getPlanet()).getBody(), branch.getBody(),
-                new Vector2(world.getPlanet().getPosition().x * Box2DWorld.WORLD_TO_BOX,
-                        (world.getPlanet().getPosition().y + (world.getPlanet().getBounds().height / 2) *
-                                PLANET_JOINT_ANCHOR_ALPHA) * Box2DWorld.WORLD_TO_BOX));
-
-        weldJoint.localAnchorA.set(0, (world.getPlanet().getBounds().height / 2 *
-                PLANET_JOINT_ANCHOR_ALPHA) * Box2DWorld.WORLD_TO_BOX);
-        weldJoint.localAnchorB.set(0,
-                -branch.getBounds().height / 2 * 0.8f * Box2DWorld.WORLD_TO_BOX);
-
-        // Set some fancy param to make it soft (wobble, wobble, wobble...)
-        weldJoint.frequencyHz = frequency;
-
-        world.getBox2DWorld().getWorld().createJoint(weldJoint);
-
-        return branch;
-    }
-
-    private static Branch createBranch(GameWorld world, Entity sourceBranch, float width, float height, float frequency,
+    /**
+     * Create new branch. If sourceBranch is null it assumes it's trunk.
+     * @param world
+     * @param tree
+     * @param sourceBranch
+     * @param width
+     * @param height
+     * @param frequency
+     * @param referenceAngle
+     * @return
+     */
+    private static Branch createBranch(GameWorld world, Tree tree, boolean isTrunk, Entity sourceBranch, float width, float height, float frequency,
                                        float referenceAngle) {
-        // Create new branch
-        Branch branch = new Branch(sourceBranch.getPosition().x, sourceBranch.getPosition().y +
-                sourceBranch.getBounds().height / 2 + height / 2, width, height, world.getBox2DWorld());
-        world.getEntityManager().addEntity(branch);
+
+        Branch branch = null;
+
+        if(isTrunk || sourceBranch == null) {
+            branch = new Trunk(world.getPlanet().getPosition().x,
+                    world.getPlanet().getPosition().y + world.getPlanet().getBounds().height / 2 + height / 2, width,
+                    height, world.getBox2DWorld(), tree);
+            world.getEntityManager().addEntity(branch);
+        } else {
+            // Create new branch
+            branch = new Branch(sourceBranch.getPosition().x, sourceBranch.getPosition().y +
+                    sourceBranch.getBounds().height / 2 + height / 2, width, height, world.getBox2DWorld());
+            world.getEntityManager().addEntity(branch);
+        }
 
         // Connect to previous branch by weld joint
         WeldJointDef weldJoint = new WeldJointDef();
-        weldJoint.initialize(((PhysicsObject) sourceBranch).getBody(), branch.getBody(),
-                new Vector2(sourceBranch.getPosition().x * Box2DWorld.WORLD_TO_BOX,
-                        (sourceBranch.getPosition().y + (sourceBranch.getBounds().height / 2) * JOINT_ANCHOR_ALPHA) *
-                                Box2DWorld.WORLD_TO_BOX));
 
-        weldJoint.localAnchorA.set(0, (sourceBranch.getBounds().height / 2 * JOINT_ANCHOR_ALPHA) * Box2DWorld.WORLD_TO_BOX);
-        weldJoint.localAnchorB.set(0,
-                -branch.getBounds().height / 2 * 0.8f * Box2DWorld.WORLD_TO_BOX);
+        // If there is no source branch, connect to planet
+        if(sourceBranch == null) {
+            weldJoint = new WeldJointDef();
+            weldJoint.initialize(((PhysicsObject) world.getPlanet()).getBody(), branch.getBody(),
+                    new Vector2(world.getPlanet().getPosition().x * Box2DWorld.WORLD_TO_BOX,
+                            (world.getPlanet().getPosition().y + (world.getPlanet().getBounds().height / 2) *
+                                    PLANET_JOINT_ANCHOR_ALPHA) * Box2DWorld.WORLD_TO_BOX));
 
+            weldJoint.localAnchorA.set(0, (world.getPlanet().getBounds().height / 2 *
+                    PLANET_JOINT_ANCHOR_ALPHA) * Box2DWorld.WORLD_TO_BOX);
+            weldJoint.localAnchorB.set(0, -branch.getBounds().height / 2 * 0.8f * Box2DWorld.WORLD_TO_BOX);
+
+        } else {
+            weldJoint.initialize(((PhysicsObject) sourceBranch).getBody(), branch.getBody(),
+                    new Vector2(sourceBranch.getPosition().x * Box2DWorld.WORLD_TO_BOX,
+                            (sourceBranch.getPosition().y + (sourceBranch.getBounds().height / 2) * JOINT_ANCHOR_ALPHA) *
+                                    Box2DWorld.WORLD_TO_BOX));
+
+            weldJoint.localAnchorA.set(0, (sourceBranch.getBounds().height / 2 * JOINT_ANCHOR_ALPHA) * Box2DWorld.WORLD_TO_BOX);
+            weldJoint.localAnchorB.set(0, -branch.getBounds().height / 2 * 0.8f * Box2DWorld.WORLD_TO_BOX);
+        }
+
+        // Set branch angle
         weldJoint.referenceAngle = referenceAngle * MathUtils.degRad;
 
         // Set some fancy param to make it soft (wobble, wobble, wobble...)

@@ -47,7 +47,7 @@ public class SquareCutterEnemy extends Enemy {
         super.update(delta);
 
         // Calculate angular impulse direction to move entity to tree
-        int direction = -(int) Math.signum(tree.getTrunk().getPosition().x - getPosition().x);
+        int direction = -(int) Math.signum(tree.getTrunk().first().getPosition().x - getPosition().x);
 
         body.setAngularVelocity(direction * SPEED);
     }

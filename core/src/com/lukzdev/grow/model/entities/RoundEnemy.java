@@ -52,7 +52,7 @@ public class RoundEnemy extends Enemy {
         super.update(delta);
 
         // Calculate force direction to move entity to tree
-        int direction = (int) Math.signum(tree.getTrunk().getPosition().x - getPosition().x);
+        int direction = (int) Math.signum(tree.getTrunk().first().getPosition().x - getPosition().x);
 
         tempVec2.set(getPosition()).sub(planet.getPosition()).rotate(-90 * direction).nor().scl(actualSpeed);
 
