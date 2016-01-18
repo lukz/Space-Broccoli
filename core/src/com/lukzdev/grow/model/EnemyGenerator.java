@@ -2,6 +2,9 @@ package com.lukzdev.grow.model;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.lukzdev.grow.model.entities.*;
+import com.lukzdev.grow.model.entities.enemy.RoundEnemy;
+import com.lukzdev.grow.model.entities.enemy.SquareCutterEnemy;
+import com.lukzdev.grow.model.entities.enemy.SquareEnemy;
 
 /**
  * @author Lukasz Zmudziak, @lukz_dev on 2016-01-18.

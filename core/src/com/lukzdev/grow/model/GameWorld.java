@@ -15,6 +15,7 @@ public class GameWorld implements ContactListener {
 
     private Box2DWorld box2DWorld;
     private EntityManager entityManager;
+    private FaceManager faceManager;
 
     private TreeGenerator treeGenerator;
     private EnemyGenerator enemyGenerator;
@@ -47,6 +48,8 @@ public class GameWorld implements ContactListener {
         treeGenerator = new TreeGenerator();
         tree = treeGenerator.buildTree(this);
 
+        // Smile!?
+        faceManager = new FaceManager(this);
     }
 
     public void update(float delta) {
@@ -57,6 +60,8 @@ public class GameWorld implements ContactListener {
 
         // Update entities logic
         entityManager.update(delta);
+
+        faceManager.update(delta);
     }
 
     public void draw(SpriteBatch batch) {

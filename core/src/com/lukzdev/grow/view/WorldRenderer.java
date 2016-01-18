@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lukzdev.grow.G;
@@ -28,6 +29,9 @@ public class WorldRenderer {
     private RayHandler rayHandler;
     private ShapeRenderer shapeRenderer;
     private DebugPointLight debugLight;
+
+    // I know it's bad but I have 18 minutes to post game!
+    public static float SHAKE_TIME = 0;
 
     public WorldRenderer(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
@@ -55,6 +59,17 @@ public class WorldRenderer {
     }
 
     public void render(float delta) {
+        if(SHAKE_TIME > 0) {
+            SHAKE_TIME -= delta;
+            cam.position.x = G.TARGET_WIDTH / 2 + MathUtils.random(-7, 7);
+            cam.position.y = G.TARGET_HEIGHT / 2 + MathUtils.random(-7, 7);
+        } else {
+            cam.position.x = G.TARGET_WIDTH / 2;
+            cam.position.y = G.TARGET_HEIGHT / 2;
+        }
+
+
+        cam.update();
         batch.setProjectionMatrix(cam.combined);
 
         // TODO: memory allocation!

@@ -33,9 +33,9 @@ public class GameScreen implements Screen {
         this.renderer = new WorldRenderer(gameWorld);
 
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        // Just for debug purposes, can be removed later
-        inputMultiplexer.addProcessor(new Box2DDrag(renderer.getCam(),
-                gameWorld.getBox2DWorld().getWorld(), gameWorld.getPlanet().getBody()));
+        // Just for debug purposes
+//        inputMultiplexer.addProcessor(new Box2DDrag(renderer.getCam(),
+//                gameWorld.getBox2DWorld().getWorld(), gameWorld.getPlanet().getBody()));
         inputMultiplexer.addProcessor(new TreeController(gameWorld, renderer));
 
         Gdx.input.setInputProcessor(inputMultiplexer);
