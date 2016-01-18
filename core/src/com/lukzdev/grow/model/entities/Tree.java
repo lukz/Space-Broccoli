@@ -46,6 +46,8 @@ public class Tree {
      * Removes last branch from tree
      */
     public void getHit() {
+        if(branches.size == 0) return;
+
         Entity branch = branches.pop();
 
         entityManager.removeEntity(branch);
