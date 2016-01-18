@@ -1,6 +1,7 @@
 package com.lukzdev.grow.model.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.lukzdev.grow.model.Box2DWorld;
@@ -13,6 +14,8 @@ public class SquareCutterEnemy extends Enemy {
 
     // Config
     private static float SPEED = 3f;
+
+    private float actualSpeed = SPEED + MathUtils.random(SPEED / 2);
 
     public SquareCutterEnemy(float x, float y, float width, float height, GameWorld gameWorld) {
         super(x, y, width, height, gameWorld);
@@ -49,7 +52,7 @@ public class SquareCutterEnemy extends Enemy {
         // Calculate angular impulse direction to move entity to tree
         int direction = -(int) Math.signum(tree.getTrunk().first().getPosition().x - getPosition().x);
 
-        body.setAngularVelocity(direction * SPEED);
+        body.applyAngularImpulse(direction * 0.01f * actualSpeed, true);
     }
 
 }

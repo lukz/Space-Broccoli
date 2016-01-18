@@ -42,7 +42,7 @@ public class EnemyGenerator {
                     newEnemy = new SquareEnemy(posX, posY, 40, 40, gameWorld);
                     break;
                 case 1:
-//                    newEnemy = new SquareCutterEnemy(posX, posY, 40, 40, gameWorld);
+                    newEnemy = new SquareCutterEnemy(posX, posY, 40, 40, gameWorld);
                     break;
                 case 2:
                     newEnemy = new RoundEnemy(posX, posY, MathUtils.random(40, 50), gameWorld);

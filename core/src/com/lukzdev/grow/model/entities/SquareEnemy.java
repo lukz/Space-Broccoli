@@ -15,6 +15,8 @@ public class SquareEnemy extends Enemy {
     // Config
     private static float SPEED = 3f;
 
+    private float actualSpeed = SPEED + MathUtils.random(SPEED / 2);
+
     public SquareEnemy(float x, float y, float width, float height, GameWorld gameWorld) {
         super(x, y, width, height, gameWorld);
 
@@ -47,10 +49,10 @@ public class SquareEnemy extends Enemy {
     public void update(float delta) {
         super.update(delta);
 
-        // Calculate angular impulse direction to move entity to tree
+        // Calculate angular direction to move entity to tree
         int direction = -(int) Math.signum(tree.getTrunk().first().getPosition().x - getPosition().x);
 
-        body.applyAngularImpulse(direction * 0.01f * SPEED, true);
+        body.setAngularVelocity(direction * actualSpeed);
     }
 
 }
