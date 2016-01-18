@@ -23,7 +23,7 @@ public class Trunk extends Branch {
     @Override
     public void handleBeginContact(PhysicsObject psycho2, GameWorld world) {
         if(psycho2 instanceof Enemy) {
-            tree.getHit();
+            tree.getHit((Enemy)psycho2);
         }
     }
 
