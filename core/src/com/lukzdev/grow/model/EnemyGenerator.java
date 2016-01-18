@@ -1,8 +1,7 @@
 package com.lukzdev.grow.model;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.lukzdev.grow.model.entities.Enemy;
-import com.lukzdev.grow.model.entities.Planet;
+import com.lukzdev.grow.model.entities.*;
 
 /**
  * @author Lukasz Zmudziak, @lukz_dev on 2016-01-18.
@@ -36,10 +35,24 @@ public class EnemyGenerator {
             float posY = planet.getPosition().y;
 
             // Create enemy
-            Enemy newEnemy = new Enemy(posX, posY, 50, 50, gameWorld);
+            Enemy newEnemy = null;
 
-            // Add enemy to wold
-            gameWorld.getEntityManager().addEntity(newEnemy);
+            switch(MathUtils.random(2)) {
+                case 0:
+                    newEnemy = new SquareEnemy(posX, posY, 40, 40, gameWorld);
+                    break;
+                case 1:
+//                    newEnemy = new SquareCutterEnemy(posX, posY, 40, 40, gameWorld);
+                    break;
+                case 2:
+                    newEnemy = new RoundEnemy(posX, posY, MathUtils.random(40, 50), gameWorld);
+                    break;
+            }
+
+            // Add enemy to world
+            if(newEnemy != null) {
+                gameWorld.getEntityManager().addEntity(newEnemy);
+            }
 
             // Reset spawn countdown
             timeTillSpawn = TIME_BETWEEN_SPAWN + MathUtils.random(-1, 1);
