@@ -32,7 +32,7 @@ public class TreeController extends InputAdapter {
         // Unproject to world units
         cam.unproject(tempVec3);
 
-        // Hit proper side
+        // Hit proper side of planet with tree
         if(tempVec3.x <= G.TARGET_WIDTH / 2) {
             gameWorld.getTree().smackPlanet(-1.5f);
         } else {
@@ -44,6 +44,8 @@ public class TreeController extends InputAdapter {
 
     @Override
     public boolean keyDown(int keycode) {
+
+        // Hit proper side of planet with tree
         switch (keycode) {
             case Input.Keys.LEFT:
                 gameWorld.getTree().smackPlanet(-1.5f);

@@ -14,13 +14,19 @@ import com.lukzdev.grow.model.entities.Trunk;
  */
 public class TreeGenerator {
 
+    // Specifies how far into the body should be set joint anchor (0 - 1)
     private static final float JOINT_ANCHOR_ALPHA = 0.8f;
+
+    // Same as @JOINT_ANCHOR_ALPHA but specifies where tree should be connected to planet
     private static final float PLANET_JOINT_ANCHOR_ALPHA = 0.97f;
 
     public static Tree buildTree(GameWorld gameWorld) {
         Tree tree = new Tree(gameWorld.getEntityManager());
 
+        // How frequency should change per layer
         float freqDelta = -3;
+
+        // Starting frequency (how strong joint should be)
         float freq = 20;
 
         // First branch
@@ -34,14 +40,17 @@ public class TreeGenerator {
         lastLayer.add(previousBranch);
 
         /**
+         * Config
          * Cool settings:
          * - branches: 2, maxDeg: 45, layers: 5
          * - branches: 2, maxDeg: 30, layers: 3
          * - branches: 3, maxDeg: 30, layers: 3
          */
-        // Config
+        // Specifies max angle between first and last branch growing from current branch
         float maxDegDeviation = 30;
+        // Specifies how @maxDegDeviation should change per layer
         float deviationDegradationPerLayer = 0;
+        // Branches per layer
         int branches = 3;
 
         float currMaxDegDeviation = maxDegDeviation;

@@ -2,7 +2,7 @@ package com.lukzdev.grow;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.lukzdev.grow.screens.LoadingScreen;
+import com.lukzdev.grow.screens.GameScreen;
 
 public class Grow extends Game {
 	private FPSLogger log;
@@ -10,11 +10,11 @@ public class Grow extends Game {
 	@Override
 	public void create () {
 		G.game = this;
-		G.assets = new Assets();
 
 		log = new FPSLogger();
 
-		G.game.setScreen(new LoadingScreen());
+		// No assets to load so go straight to the game
+		G.game.setScreen(new GameScreen());
 	}
 
 	@Override

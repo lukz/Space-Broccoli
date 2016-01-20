@@ -11,6 +11,7 @@ import com.lukzdev.grow.model.GameWorld;
 import com.lukzdev.grow.model.PhysicsObject;
 
 /**
+ * Base enemy class
  * @author Lukasz Zmudziak, @lukz_dev on 2016-01-17.
  */
 public abstract class Enemy extends Entity implements PhysicsObject {

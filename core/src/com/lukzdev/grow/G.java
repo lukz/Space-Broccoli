@@ -12,7 +12,4 @@ public class G {
 
     // Game instance used to move between screens
     public static Game game;
-
-    // Asset manager
-    public static Assets assets;
 }

@@ -12,6 +12,7 @@ import com.lukzdev.grow.model.PhysicsObject;
 import com.lukzdev.grow.model.entities.Enemy;
 
 /**
+ * Simple round enemy rotating over the ground nad sometimes bouncing
  * @author Lukasz Zmudziak, @lukz_dev on 2016-01-17.
  */
 public class RoundEnemy extends Enemy {
@@ -29,7 +30,7 @@ public class RoundEnemy extends Enemy {
                         .circleShape(getBounds().getWidth() / 2 * Box2DWorld.WORLD_TO_BOX)
                         .density(12f)
                         .friction(1f)
-                        .restitution(MathUtils.random(0.2f, 0.8f))
+                        .restitution(MathUtils.random(0.4f, 0.8f))
                         .categoryBits(Box2DWorld.CATEGORY.ENEMY)
                         .build())
 //                .fixedRotation()

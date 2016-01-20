@@ -32,6 +32,7 @@ public class GameScreen implements Screen {
         this.gameWorld = new GameWorld();
         this.renderer = new WorldRenderer(gameWorld);
 
+        // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         // Just for debug purposes
 //        inputMultiplexer.addProcessor(new Box2DDrag(renderer.getCam(),

@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-
+/**
+ * Base entity class with basic position, rotation and size
+ */
 public abstract class Entity {
 
     protected Vector2 position;

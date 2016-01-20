@@ -9,6 +9,7 @@ import com.lukzdev.grow.model.GameWorld;
 import com.lukzdev.grow.model.entities.Enemy;
 
 /**
+ * Rectangle enemy with slow movement
  * @author Lukasz Zmudziak, @lukz_dev on 2016-01-17.
  */
 public class SquareEnemy extends Enemy {
@@ -27,7 +28,7 @@ public class SquareEnemy extends Enemy {
                                 getBounds().getHeight() / 2 * Box2DWorld.WORLD_TO_BOX)
                         .density(15f)
                         .friction(1f)
-                        .restitution(0f)
+                        .restitution(0.1f)
                         .categoryBits(Box2DWorld.CATEGORY.ENEMY)
                         .build())
 //                .fixedRotation()

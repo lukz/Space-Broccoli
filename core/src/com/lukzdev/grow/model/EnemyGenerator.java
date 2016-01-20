@@ -7,16 +7,18 @@ import com.lukzdev.grow.model.entities.enemy.SquareCutterEnemy;
 import com.lukzdev.grow.model.entities.enemy.SquareEnemy;
 
 /**
+ * Generate enemies
  * @author Lukasz Zmudziak, @lukz_dev on 2016-01-18.
  */
 public class EnemyGenerator {
 
     // Config
-    private float TIME_BETWEEN_SPAWN = 1.5f;
+    private float TIME_BETWEEN_SPAWN = .5f;
+
+    // Starting time before first spawn
+    private float timeTillSpawn = 2;
 
     private GameWorld gameWorld;
-
-    private float timeTillSpawn = 0;
 
     public EnemyGenerator(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
@@ -25,7 +27,7 @@ public class EnemyGenerator {
     public void update(float delta) {
         timeTillSpawn -= delta;
 
-        // Spawn enemeies!
+        // Spawn enemies!
         if(timeTillSpawn <= 0) {
 
             // Random planet side

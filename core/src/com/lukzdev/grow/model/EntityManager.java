@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.lukzdev.grow.model.entities.Entity;
 
+/**
+ * Keeps all entities and handle their update and draw.
+ */
 public class EntityManager {
 
     private Array<Entity> entities;

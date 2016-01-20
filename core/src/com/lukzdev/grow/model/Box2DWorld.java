@@ -8,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.lukzdev.grow.utils.BodyBuilder;
 import com.lukzdev.grow.utils.FixtureDefBuilder;
-import com.lukzdev.grow.utils.JointBuilder;
 
 import java.util.Iterator;
 
@@ -39,7 +38,6 @@ public class Box2DWorld {
 
     private FixtureDefBuilder fixtureDefBuilder;
     private BodyBuilder bodyBuilder;
-    private JointBuilder jointBuilder;
 
     private Box2DDebugRenderer debugRenderer;
 
@@ -91,9 +89,5 @@ public class Box2DWorld {
 
     public FixtureDefBuilder getFixtureDefBuilder() {
         return fixtureDefBuilder;
-    }
-
-    public JointBuilder getJointBuilder() {
-        return jointBuilder;
     }
 }
