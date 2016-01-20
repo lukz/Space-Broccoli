@@ -52,7 +52,7 @@ public class Box2DWorld {
     }
 
     public void update(float dt) {
-        world.step(dt, 15, 5);
+        world.step(dt, 10, 4);
         sweepDeadBodies();
     }
 

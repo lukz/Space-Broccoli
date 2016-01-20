@@ -62,6 +62,11 @@ public class GameWorld implements ContactListener {
         entityManager.update(delta);
 
         faceManager.update(delta);
+
+        // Easter egg
+        if(tree.getTrunk().first().getPosition().dst(planet.getPosition()) > 700f) {
+            faceManager.setFace(FaceManager.FACES.SICK);
+        }
     }
 
     public void draw(SpriteBatch batch) {
